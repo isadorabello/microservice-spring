@@ -12,4 +12,5 @@ spring:
   jap:
     hibernate:
       ddl-auto: update
-
+  rabbitmq:
+    address: "amqps://ewlftsee:D4Nu9C784y1BcVAa61yHeOnXK5e56xbe@armadillo.rmq.cloudamqp.com/ewlftsee"
