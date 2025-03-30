@@ -9,6 +9,13 @@ spring:
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
-  jap:
+  jpa:
     hibernate:
       ddl-auto: update
+  rabbitmq:
+    addresses: "amqps://ewlftsee:D4Nu9C784y1BcVAa61yHeOnXK5e56xbe@armadillo.rmq.cloudamqp.com/ewlftsee"
+
+broker:
+  queue:
+    email:
+      name: default.email
