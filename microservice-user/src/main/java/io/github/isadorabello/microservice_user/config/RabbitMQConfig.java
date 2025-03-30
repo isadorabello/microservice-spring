@@ -1,22 +1,13 @@
-package io.github.isadorabello.microservice_email.config;
+package io.github.isadorabello.microservice_user.config;
+
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class RAbbitMQConfig {
-
-    @Value("${broker.queue.email.name}")
-    private String queue;
-
-    @Bean
-    public Queue queue() {
-        return new Queue(queue, true);
-    }
+public class RabbitMQConfig {
 
     @Bean
     public Jackson2JsonMessageConverter messageConverter (){ // as mensagens são recebidas via json, por isso é necessário fazer a conversão o tipo EmailRecordDTO (java)
