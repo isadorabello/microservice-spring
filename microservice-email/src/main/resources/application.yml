@@ -14,6 +14,16 @@ spring:
       ddl-auto: update
   rabbitmq:
     addresses: "amqps://ewlftsee:D4Nu9C784y1BcVAa61yHeOnXK5e56xbe@armadillo.rmq.cloudamqp.com/ewlftsee"
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: mymail@gmail.com
+    password: mypassword
+    protocol: smtp
+    tls: true
+    properties.mail.smtp:
+      auth: true
+      starttls.enable: true
 
 broker:
   queue:
