@@ -1,99 +1,97 @@
-# Projeto de Mensageria com RabbitMQ e Spring Boot
 
-Descrição
+# Mensageria com RabbitMQ
 
 Este é um projeto simples de mensageria utilizando RabbitMQ como broker de mensagens e Spring Boot para o desenvolvimento de dois microsserviços:
 
-User Service: Responsável por receber cadastros/logins de usuários e publicar mensagens no broker.
+User Service: Responsável por receber cadastros de usuários e publicar mensagens no broker.
+- Expondo API REST para cadastro e login de usuários.
+- Salvando dados no PostgreSQL.
+- Publicando mensagens no RabbitMQ.
 
 Email Service: Responsável por escutar mensagens do broker e enviar e-mails específicos aos usuários.
+- Escutando mensagens do RabbitMQ.
+- Enviando e-mails específicos aos usuários.
+- Registrando logs no banco de dados.
 
 O banco de dados utilizado é o PostgreSQL, que é executado via Docker.
 
-Tecnologias Utilizadas
+Certifique-se de clonar os dois repositórios (producer e Consumer).
 
-Spring Boot (Spring Web, Spring AMQP, Spring Data JPA)
+## Requisitos do Sistema
 
-RabbitMQ (mensageria)
+Para rodar esta aplicação, você precisa de:
 
-PostgreSQL (banco de dados)
+- Java: JDK 21 ou superior.
+- Maven: Versão 3.8.1 ou superior.
+- Git: Para clonar o repositório.
+- Docker (Opcional): Para rodar a imagem do PostgreSQL
 
-Docker (gerenciamento de contêineres)
 
-Estrutura do Projeto
+## Como Rodar o PostgreSQL no Docker (Opcional)
 
-O projeto é dividido em dois microsserviços:
+Crie a Imagem Docker Certifique-se de que o Docker está instalado e execute:
 
-1. User Service (usuários)
 
-Expondo API REST para cadastro e login de usuários.
+Crie uma rede entre os dois containers
+```bash
+docker network create ms-network
+```
 
-Salvando dados no PostgreSQL.
+Crie as imagens do PostgreSQL e do Servidor PgAdmin4
 
-Publicando mensagens no RabbitMQ.
+```bash
+docker run --name ms -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=ms-email -p 5432:5432 -d --network ms-network postgres:16
+```
 
-2. Email Service (e-mails)
+```bash
+docker run --name pgadmin4-ms -e PGADMIN_DEFAULT_EMAIL=admin@admin.com -e PGADMIN_DEFAULT_PASSWORD=admin -p 15432:80 -d --network ms-network dpage/pgadmin4:9.0
+```
 
-Escutando mensagens do RabbitMQ.
-
-Enviando e-mails específicos aos usuários.
-
-Registrando logs no banco de dados.
-
-Como Executar o Projeto
-
-1. Subindo o Ambiente com Docker
-
-Antes de iniciar os microsserviços, suba os containers do PostgreSQL e do RabbitMQ com o seguinte comando:
-
-docker-compose up -d
-
-O arquivo docker-compose.yml deve conter a configuração para PostgreSQL e RabbitMQ.
-
-2. Configurando os Microsserviços
+## Configurando os Microsserviços
 
 Certifique-se de definir as configurações corretas no application.yml de cada microsserviço, incluindo:
+- Configuração do banco de dados (PostgreSQL).
+- Configuração do RabbitMQ (host, porta, fila, exchange, routing key.
 
-Configuração do banco de dados (PostgreSQL).
 
-Configuração do RabbitMQ (host, porta, fila, exchange, routing key).
 
-3. Rodando os Microsserviços
 
-Execute cada microsserviço separadamente:
+## Rodando Localmente
 
-## Iniciando o User Service
-cd user-service
-mvn spring-boot:run
+Clone o projeto
 
-## Iniciando o Email Service
-cd email-service
-mvn spring-boot:run
+```bash
+  git clone https://github.com/isadorabello/microservice-spring.git
+```
 
-Fluxo de Execução
+Entre no diretório do projeto
 
-O User Service recebe uma requisição de cadastro de usuário via API REST (POST /users).
+```bash
+  cd microservice-spring
+```
 
-O usuário é salvo no banco de dados e uma mensagem é publicada no RabbitMQ.
+Compile o Projeto
 
-O Email Service escuta a mensagem publicada no broker.
+```bash
+   mvn clean install
+```
 
-O Email Service envia um e-mail de confirmação ao usuário.
+Inicie o servidor
 
-O envio do e-mail é registrado no banco de dados.
+```bash
+  mvn spring-boot:run
+```
 
-Endpoints Disponíveis
 
-User Service
+## Documentação da API
 
-POST /users - Cria um novo usuário e publica mensagem no RabbitMQ.
+#### Criar um novo usuário
 
-GET /users/{id} - Retorna os dados de um usuário.
+```http
+  POST /users
+```
 
-Email Service
-
-Escuta mensagens do RabbitMQ e envia e-mails automaticamente.
-
-Considerações Finais
-
-Este projeto demonstra a implementação de um sistema de mensageria simples com Spring Boot, RabbitMQ e Docker, promovendo um ambiente assíncrono entre microsserviços.
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `name` | `String` | **Obrigatório**. O nome do usuário|
+| `email` | `String` | **Obrigatório**. O email do usuário|
