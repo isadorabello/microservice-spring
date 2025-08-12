@@ -13,7 +13,7 @@ spring:
     hibernate:
       ddl-auto: update
   rabbitmq:
-    addresses: "amqps://ewlftsee:D4Nu9C784y1BcVAa61yHeOnXK5e56xbe@armadillo.rmq.cloudamqp.com/ewlftsee"
+    addresses: "amqps://fkmqvjdt:TCfpj63dxTsNMiVrZctEkrXqSnJiD4fl@possum.lmq.cloudamqp.com/fkmqvjdt"
   mail:
     host: smtp.gmail.com
     port: 587
