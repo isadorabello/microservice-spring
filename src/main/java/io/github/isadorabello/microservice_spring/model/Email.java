@@ -2,27 +2,27 @@ package io.github.isadorabello.microservice_spring.model;
 
 import java.util.UUID;
 
-public class EmailModel {
-    private UUID id;
-    private String email;
+public class Email {
+    private UUID userId;
+    private String emailTo;
     private String subject;
     private String text;
 
 
-    public UUID getId() {
-        return id;
+    public UUID getUserId() {
+        return userId;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 
-    public String getEmail() {
-        return email;
+    public String getEmailTo() {
+        return emailTo;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEmailTo(String emailTo) {
+        this.emailTo = emailTo;
     }
 
     public String getSubject() {

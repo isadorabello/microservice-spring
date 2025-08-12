@@ -18,10 +18,10 @@ public class UserService {
     }
 
     @Transactional
-    public User save(User userModel) {
+    public User save(User user) {
         // da errado colocar não atribuir o retorno do repositorio para a variavel?
-        userModel = repository.save(userModel);
-        producer.publishMessageEmail(userModel);
-        return userModel;
+        user = repository.save(user);
+        producer.publishMessageEmail(user);
+        return user;
     }
 }

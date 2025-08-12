@@ -1,7 +1,6 @@
 package io.github.isadorabello.microservice_spring.producer;
 
-import io.github.isadorabello.microservice_spring.dto.EmailDTO;
-import io.github.isadorabello.microservice_spring.model.EmailModel;
+import io.github.isadorabello.microservice_spring.model.Email;
 import io.github.isadorabello.microservice_spring.model.User;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,18 +18,16 @@ public class UserProducer {
     @Value(value = "${broker.queue.email.name}")
     private String routingKey;
 
-    public void publishMessageEmail(User model){
-        var emailModel  = new EmailModel();
-        // var dto = new EmailDTO(model.getId(), model.getEmail(), "Cadastro realizado com sucesso!", model.getName() + ", seja bem vindo(a)!\nAgradecemos o seu cadastro, aproveite agora e saiba mais sobre todos os recursos disponíveis na nossa plataforma.");
+    public void publishMessageEmail(User user){
+        var email  = new Email();
 
-        emailModel.setId(model.getId());
-        emailModel.setEmail(model.getEmail());
-        emailModel.setSubject("Cadastro realizado com sucesso!");
-        emailModel.setText(model.getName() + ", seja bem vindo(a)!\nAgradecemos o seu cadastro, aproveite agora e saiba mais sobre todos os recursos disponíveis na nossa plataforma.");
+        email.setUserId(user.getId());
+        email.setEmailTo(user.getEmail());
+        email.setSubject("Cadastro realizado com sucesso!");
+        email.setText(user.getName() + ", seja bem vindo(a)!\nAgradecemos o seu cadastro, aproveite agora e saiba mais sobre todos os recursos disponíveis na nossa plataforma.");
 
 
-        rabbitTemplate.convertAndSend("", routingKey, emailModel);
-        // rabbitTemplate.convertAndSend("", routingKey, dto);
+        rabbitTemplate.convertAndSend("", routingKey, email);
     }
 
 
