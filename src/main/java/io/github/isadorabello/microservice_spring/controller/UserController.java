@@ -1,7 +1,7 @@
 package io.github.isadorabello.microservice_spring.controller;
 
-import io.github.isadorabello.microservice_spring.dto.UserRecordDTO;
-import io.github.isadorabello.microservice_spring.model.UserModel;
+import io.github.isadorabello.microservice_spring.dto.UserDTO;
+import io.github.isadorabello.microservice_spring.model.User;
 import io.github.isadorabello.microservice_spring.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -21,8 +21,8 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<UserModel> saveUser (@RequestBody @Valid UserRecordDTO dto){
-        var userModel = new UserModel();
+    public ResponseEntity<User> saveUser (@RequestBody @Valid UserDTO dto){
+        var userModel = new User();
         BeanUtils.copyProperties(dto, userModel);
         return  ResponseEntity.status(HttpStatus.CREATED).body(userService.save(userModel));
     }
